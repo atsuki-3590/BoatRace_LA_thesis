@@ -1,0 +1,2 @@
+# BoatRace_LA_thesis
+教養卒論用のボートレース予測モデル
