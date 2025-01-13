@@ -1,0 +1,7 @@
+matplotlib
+seaborn
+scikit-learn
+utils
+japanize_matplotlib
+imblearn
+lightgbm
