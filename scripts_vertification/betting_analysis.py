@@ -1,4 +1,8 @@
 import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+import japanize_matplotlib 
+japanize_matplotlib.japanize()
 
 # データの読み込み
 file_path = 'data/processed/test_predict_with_odds.csv'
@@ -13,39 +17,25 @@ inverse_product_df = pd.DataFrame({
     # 'Inverse Product': [
     #     3.285324, 2.802188, 3.402657, 3.664400, 3.092069, 3.754656, 4.043475, 3.202501, 3.448847, 4.187885,
     #     3.961714, 4.810653, 5.180703, 4.103204, 4.418835, 5.365728, 4.527673, 4.875956, 5.920803, 5.050097
-    # ]
-    # 'Inverse Product': [
-    #     5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0,
-    #     5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0,
-    # ]
-    # 'Inverse Product': [
-    #     6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 
-    #     6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 
-    # ]
-    # 'Inverse Product': [
-    #     7.0, 7.0, 7.0, 7.0, 7.0, 7.0, 7.0, 7.0, 7.0, 7.0, 
-    #     7.0, 7.0, 7.0, 7.0, 7.0, 7.0, 7.0, 7.0, 7.0, 7.0, 
-    # ]
-    # 'Inverse Product': [
-    #     7.3, 7.3, 7.3, 7.3, 7.3, 7.3, 7.3, 7.3, 7.3, 7.3, 
-    #     7.3, 7.3, 7.3, 7.3, 7.3, 7.3, 7.3, 7.3, 7.3, 7.3, 
-    # ]
-    # 'Inverse Product': [
-    #     8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 
-    #     8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 
-    # ]
-    # 'Inverse Product': [
-    #     10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 
-    #     10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 
-    # ]
-    # 'Inverse Product': [
-    #     20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 
-    #     20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 
-    # ]
+    # # ]
+    # 'Inverse Product': [5.0] * 20 
+    # 'Inverse Product': [6.0] * 20 
+    # 'Inverse Product': [7.0] * 20 
+    # 'Inverse Product': [7.3] * 20 
+    # 'Inverse Product': [8.0] * 20 
+    # 'Inverse Product': [9.0] * 20 
+    'Inverse Product': [10.0] * 20 
+    # 'Inverse Product': [20.0] * 20 
 })
 
 # 1. `predict_result_1`から`predict_result_6`の列の中で「1」の数が2つより多い行をフィルタリング
 filtered_df = df[df[['predict_result_1', 'predict_result_2', 'predict_result_3', 'predict_result_4', 'predict_result_5', 'predict_result_6']].sum(axis=1) > 2]
+
+# 的中と最大オッズの追跡
+max_odds = 0
+race_code_of_max_odds = None
+match_count = 0
+total_purchases_count = 0 
 
 # 2. フィルタリングされた行から「1」が現れる列の組み合わせを抽出
 relevant_combinations = []
@@ -61,6 +51,10 @@ for index, row in filtered_df.iterrows():
 # 3. 修正された購入と払い戻しの計算
 total_purchases = 0
 total_payouts = 0
+bet_amount = 100  # 賭け金額を設定（例として100円）
+
+winning_odds = []
+purchased_odds = []
 
 for i, combinations in enumerate(relevant_combinations):
     row = filtered_df.iloc[i]
@@ -68,16 +62,51 @@ for i, combinations in enumerate(relevant_combinations):
         inverse_value = inverse_product_df[inverse_product_df['Combination'] == combination]['Inverse Product'].values[0]
         # 逆数の積よりもオッズが大きい場合に購入
         if row[combination] > inverse_value:
-            total_purchases += 1
+            total_purchases += bet_amount  # 100円ずつ購入すると仮定
+            total_purchases_count += 1  # 購入件数を増加
+            purchased_odds.append(row[combination])  # 購入オッズを記録
             # この組み合わせが実際の結果と一致するか確認
             if combination == row['result']:
-                total_payouts += row[combination]
+                total_payouts += bet_amount * row[combination]  # 実際の払い戻しは賭け金 × オッズ
+                winning_odds.append(row[combination])
+                match_count += 1 # 的中回数をカウント
+                odds = row[combination] 
+                if odds > max_odds:
+                    max_odds = odds
+                    race_code_of_max_odds = row['レースコード'] 
+
+hit_rate = round(match_count / total_purchases_count * 100, 2) if total_purchases_count > 0 else 0.0
 
 # 結果の表示
-total_purchases = int(total_purchases * 100)
-total_payouts = int(total_payouts * 100)
-collection_rate = round(total_payouts/total_purchases * 100, 2)
+total_purchases = int(total_purchases)
+total_payouts = int(total_payouts)
+collection_rate = round(total_payouts / total_purchases * 100, 2)
 
 print(f"購入金額 : {total_purchases}円")
 print(f"払戻金額 : {total_payouts}円")
 print(f"回収率 : {collection_rate}%")
+print(f"的中件数 : {match_count}件")
+print(f"的中率 : {hit_rate}%")
+
+print(f"最大オッズのレースコード: {race_code_of_max_odds}, 最大オッズ: {max_odds}")
+
+
+# ビンの幅を5に設定
+bin_width = 2.5
+bins = np.arange(0, max(max(winning_odds), max(purchased_odds)) + bin_width, bin_width)
+
+# 的中オッズと購入オッズのヒストグラムを重ねて描画
+plt.figure(figsize=(10, 6))
+
+# 的中オッズのヒストグラム
+plt.hist(winning_odds, bins=bins, color='blue', edgecolor='black', alpha=0.5, label='的中オッズ')
+
+# 購入オッズのヒストグラム
+plt.hist(purchased_odds, bins=bins, color='green', edgecolor='black', alpha=0.5, label='購入オッズ')
+
+plt.title('的中オッズと購入オッズの分布')
+plt.xlabel('オッズ')
+plt.ylabel('頻度')
+plt.legend(loc='upper right')
+plt.grid(True)
+plt.show()
