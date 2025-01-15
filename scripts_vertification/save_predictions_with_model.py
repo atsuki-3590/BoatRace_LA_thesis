@@ -6,7 +6,14 @@ def predict_with_model(boat_number):
     # データの読み込み
     data = pd.read_csv(f"data\processed\modified_data{boat_number}.csv")
     data['レース日'] = pd.to_datetime(data['レースコード'].str[:8], format='%Y%m%d')
-    data = data[data['レース日'] >= pd.Timestamp('2024-06-01')]
+
+    
+    # 後ろ2割のデータを抽出
+    num_rows = len(data)
+    start_idx = int(num_rows * 0.8)  # 後ろ2割の開始位置
+    data = data.iloc[start_idx:]
+
+    # data = data[data['レース日'] >= pd.Timestamp('2024-06-01')]
 
 
     # モデルファイルのパスを組み立て

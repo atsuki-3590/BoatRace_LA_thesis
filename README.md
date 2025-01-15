@@ -21,7 +21,7 @@
 
 
 ### 検証
-5. データの一部を検証用に用いる、訓練されたモデルを用いて予測データを作成（scrpits_verification\verification_preprocessing.py）
+5. データの一部を検証用に用いる、訓練されたモデルを用いて予測データを作成（scrpits_verification\save_predictions_with_model.py）
 
 6. 予測データと結果データ、オッズデータを結合する（scrpits_verification\test_data_marged.py）
 

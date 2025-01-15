@@ -17,14 +17,15 @@ inverse_product_df = pd.DataFrame({
     # 'Inverse Product': [
     #     3.285324, 2.802188, 3.402657, 3.664400, 3.092069, 3.754656, 4.043475, 3.202501, 3.448847, 4.187885,
     #     3.961714, 4.810653, 5.180703, 4.103204, 4.418835, 5.365728, 4.527673, 4.875956, 5.920803, 5.050097
-    # # ]
+    # ]
     # 'Inverse Product': [5.0] * 20 
     # 'Inverse Product': [6.0] * 20 
     # 'Inverse Product': [7.0] * 20 
     # 'Inverse Product': [7.3] * 20 
     # 'Inverse Product': [8.0] * 20 
     # 'Inverse Product': [9.0] * 20 
-    'Inverse Product': [10.0] * 20 
+    # 'Inverse Product': [10.0] * 20 
+    'Inverse Product': [15.0] * 20 
     # 'Inverse Product': [20.0] * 20 
 })
 
