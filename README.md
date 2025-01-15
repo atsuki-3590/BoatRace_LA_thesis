@@ -7,6 +7,11 @@
 
 
 
+
+# 1号艇を除いて購入するのはどう？
+
+
+
 ### 生データの編集
 1. 出走表データ（info.csv）と結果データ（result.csv）を結合してmerged_data.csvに（scripts\data_marged.py）
 
