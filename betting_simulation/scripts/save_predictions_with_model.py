@@ -3,7 +3,7 @@ import pandas as pd
 import pickle
 
 STRAT_DATE = 20240611
-END_DATE = 20240731
+END_DATE = 20240831
 
 def predict_with_model(boat_number):
     # データの読み込み

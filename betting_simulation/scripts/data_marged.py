@@ -2,7 +2,7 @@ import pandas as pd
 import os
 
 STRAT_DATE = 20240611
-END_DATE = 20240731
+END_DATE = 20240831
 
 # ファイルのパス
 info_path = f'betting_simulation/data/raw/info_{STRAT_DATE}_{END_DATE}.csv'

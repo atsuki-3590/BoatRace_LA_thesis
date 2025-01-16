@@ -5,7 +5,7 @@ from sklearn.preprocessing import LabelEncoder
 # データ前処理
 
 STRAT_DATE = 20240611
-END_DATE = 20240731
+END_DATE = 20240831
 
 
 def preprocess_boat_data(boat_number):

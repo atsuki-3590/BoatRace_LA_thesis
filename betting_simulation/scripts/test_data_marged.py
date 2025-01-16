@@ -2,8 +2,8 @@ import pandas as pd
 from functools import reduce
 
 STRAT_DATE = 20240611
-END_DATE = 20240731  # 修正：データ範囲を2024年6月30日までに変更
-END_DATE_filepath = 20240731  # 修正：ファイル名に含めるデータ範囲を2024年7月31日までに変更
+END_DATE = 20240831  # 修正：データ範囲を2024年6月30日までに変更
+END_DATE_filepath = 20240831  # 修正：ファイル名に含めるデータ範囲を2024年7月31日までに変更
 
 # 日付範囲を整数で定義
 START_DATE_INT = int(STRAT_DATE)

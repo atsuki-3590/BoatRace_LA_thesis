@@ -4,7 +4,7 @@ import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 
 STRAT_DATE = 20240611
-END_DATE = 20240731
+END_DATE = 20240831
 
 # ファイルパスを変数に格納
 raw_file_path = f'betting_simulation/data/raw/merged_data_{STRAT_DATE}_{END_DATE}.csv'
