@@ -53,7 +53,8 @@ model.fit(X_train, y_train)
 
 
 # カスタム閾値の設定
-custom_threshold = 0.30  # ここでカスタム閾値を設定します
+# custom_threshold = 0.30  # ここでカスタム閾値を設定します
+custom_threshold = 0.40  # ここでカスタム閾値を設定します
 
 # モデルの予測
 y_pred_proba = model.predict_proba(X_test)[:, 1]

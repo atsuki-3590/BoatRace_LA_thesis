@@ -59,7 +59,7 @@ results_df = reduce(lambda left, right: pd.merge(left, right, on=['レースコ�
 predictions_df = pd.merge(predictions_df, results_df, on=['レースコード', 'レース日'], how='inner')
 
 # オッズデータの追加
-odds_data = pd.read_csv('betting_simulation/data/raw/odds_3f_20240611_20240731.csv')
+odds_data = pd.read_csv('betting_simulation/data/raw/odds_3f_20240611_20240831.csv')
 odds_data['レース日'] = odds_data['レースコード'].apply(extract_date_from_code)  # 日付を抽出
 odds_data = odds_data[(odds_data['レース日'] >= START_DATE_INT) & (odds_data['レース日'] <= END_DATE_INT)]  # 日付でフィルタリング
 final_df = pd.merge(predictions_df, odds_data, on=['レースコード', 'レース日'], how='inner')
@@ -71,7 +71,7 @@ final_df['result'] = final_df[result_columns].apply(lambda row: '='.join([str(i+
 final_df.drop(columns=result_columns, inplace=True)
 
 # ファイル出力
-output_path = f"test_predict_with_odds_{STRAT_DATE}_{END_DATE}.csv"
+output_path = f"test_predict_with_odds_{STRAT_DATE}_{END_DATE}_1.csv"
 final_df.to_csv(f"betting_simulation/data/processed/{output_path}", index=False)
 
 # 結果を確認
